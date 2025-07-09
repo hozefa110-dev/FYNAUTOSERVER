@@ -1,0 +1,1 @@
+from fynautoserver.schemas.tenant_info_schema.tenant_info_schema import TenantInfoSchema
