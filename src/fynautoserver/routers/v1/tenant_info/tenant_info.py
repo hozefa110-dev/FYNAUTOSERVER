@@ -1,9 +1,10 @@
 from fastapi import APIRouter, FastAPI
-from fynautoserver.models.index import TenantInfoModel
-from fynautoserver.controller.tenant_info_crud import create_tenant_info , getTenantInfoByTenancyName
+from fynautoserver.models.index import TenantInfoModel , AddTenantModel
+from fynautoserver.controller.tenant_info_crud import create_tenant_info , getTenantInfoByTenancyName, add_tenant
 from fynautoserver.utils.index import create_response
 from fynautoserver.models.index import ResponseModel
-
+from fynautoserver.schemas.index import AddTenantSchema
+from fastapi.encoders import jsonable_encoder
 
 app = FastAPI()
 
@@ -17,6 +18,18 @@ async def getTenantInfo():
 async def getTenantIdByName(tenancyName: str):
     response = await getTenantInfoByTenancyName(tenancyName)
     return response
+
+@router.get('/getAllTenants',response_model=ResponseModel)
+async def getAllTenants():
+    response = await AddTenantSchema.find_all().to_list()
+    json_safe = jsonable_encoder(response)
+    return create_response(success=True, result=json_safe, status_code=201)
+
+@router.post('/addTenant',response_model=ResponseModel)
+async def addTenant(payload: AddTenantModel):
+    print(f'hahahahah {payload}')
+    response = await add_tenant(payload)
+    return create_response(success=True, result=response, status_code=201)
     
 @router.post('/setTenantInfo',response_model=ResponseModel)
 async def setTenantInfo(payload:TenantInfoModel):

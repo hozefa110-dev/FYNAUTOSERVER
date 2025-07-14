@@ -1,11 +1,29 @@
 import json, os
-from fynautoserver.models.tenant_info_model.tenant_info_model import TenantInfoModel
+from fynautoserver.models.index import TenantInfoModel , AddTenantModel
 from fynautoserver.utils.index import create_response
-from fynautoserver.schemas.index import TenantInfoSchema
+from fynautoserver.schemas.index import TenantInfoSchema, AddTenantSchema
 from pathlib import Path
 from fastapi import  HTTPException
 import httpx
 from fynautoserver.utils.index import zip_folder
+from fynautoserver.schemas.tenant_info_schema.add_tenant_schema import DEFAULT_STEPS
+from copy import deepcopy
+
+async def add_tenant(payload:AddTenantModel):
+        existing = await AddTenantSchema.find_one({"tenantId": payload.tenantId})
+        if existing:
+            return {"message": "Tenant Already Exists"}
+        else:
+            payload_with_steps = payload.model_dump()
+            payload_with_steps["steps"] = deepcopy(DEFAULT_STEPS)
+
+            tenant_details = AddTenantSchema(**payload_with_steps)
+            await tenant_details.insert()
+            return {"message": "Tenant Added Successfully"}
+    # try:
+
+    # except Exception as e:
+    #     print(f'error from add_tenant due to : {e}')
 
 async def create_tenant_folder(payload:TenantInfoModel):
     name_no_spaces = payload.TenancyName.replace(" ", "")

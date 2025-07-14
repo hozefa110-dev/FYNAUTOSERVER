@@ -15,5 +15,5 @@ class TenantInfoSchema(Document):
     TenancyName: str
     TenantId: int
 
-    class Setting():
+    class Settings:
         name = 'tenant_info'

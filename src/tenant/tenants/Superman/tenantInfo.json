@@ -1,14 +1,14 @@
 {
     "ApiUrl": "https://dev.fyndev.com/",
-    "AppName": "Super man",
-    "Auth0ClientId": "78955",
-    "Auth0Domain": "kjnfskjn.auth0.com",
+    "AppName": "superaaa",
+    "Auth0ClientId": "jsabdk",
+    "Auth0Domain": "sab.auth0.com",
     "Auth0Organization": "",
-    "BundleId": "com.superman",
+    "BundleId": "com.sd",
     "OktaClientId": "",
     "OktaDomain": "",
-    "PackageName": "com.sup  kdsnk",
-    "SentryDsn": "875564",
+    "PackageName": "com.sd",
+    "SentryDsn": "jhbjy",
     "TenancyName": "Superman",
     "TenantId": 280
 }
