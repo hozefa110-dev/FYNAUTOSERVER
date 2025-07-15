@@ -86,3 +86,12 @@ async def getTenantInfoByTenancyName(tenancyName : str):
         return response.json()
     except Exception as e:
         raise HTTPException(status_code=500, detail="Something went wrong")
+    
+
+async def remove_tenant(tenantId: str):
+    tenant = await AddTenantSchema.find_one({"tenantId": tenantId})
+    if not tenant:
+        raise HTTPException(status_code=404, detail="Tenant not found")
+
+    await tenant.delete()
+    return {"message": "Tenant deleted successfully"}
