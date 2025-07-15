@@ -14,7 +14,7 @@ class StepModel(BaseModel):
     status: TenantStatusEnum
 
 DEFAULT_STEPS: List[StepModel] = [
-    StepModel(id=1, label="Tenant Info", status=TenantStatusEnum.pending),
+    StepModel(id=1, label="Tenant Info", status=TenantStatusEnum.ongoing),
     StepModel(id=2, label="File Configs", status=TenantStatusEnum.pending),
     StepModel(id=3, label="Theme", status=TenantStatusEnum.pending),
     StepModel(id=4, label="Font Embeding", status=TenantStatusEnum.pending),

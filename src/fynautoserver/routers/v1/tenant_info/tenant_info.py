@@ -1,6 +1,6 @@
 from fastapi import APIRouter, FastAPI
 from fynautoserver.models.index import TenantInfoModel , AddTenantModel
-from fynautoserver.controller.tenant_info_crud import create_tenant_info , getTenantInfoByTenancyName, add_tenant
+from fynautoserver.controller.tenant_info_crud import create_tenant_info , getTenantInfoByTenancyName, add_tenant, remove_tenant
 from fynautoserver.utils.index import create_response
 from fynautoserver.models.index import ResponseModel
 from fynautoserver.schemas.index import AddTenantSchema
@@ -25,9 +25,13 @@ async def getAllTenants():
     json_safe = jsonable_encoder(response)
     return create_response(success=True, result=json_safe, status_code=201)
 
+@router.delete('/removeTenant',response_model=ResponseModel)
+async def removeTenant(tenantId: str):
+    response = await remove_tenant(tenantId)
+    return create_response(success=True, result=response, status_code=201)
+
 @router.post('/addTenant',response_model=ResponseModel)
 async def addTenant(payload: AddTenantModel):
-    print(f'hahahahah {payload}')
     response = await add_tenant(payload)
     return create_response(success=True, result=response, status_code=201)
     
