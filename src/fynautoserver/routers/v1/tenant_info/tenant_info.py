@@ -1,9 +1,9 @@
 from fastapi import APIRouter, FastAPI
 from fynautoserver.models.index import TenantInfoModel , AddTenantModel
-from fynautoserver.controller.tenant_info_crud import create_tenant_info , getTenantInfoByTenancyName, add_tenant, remove_tenant
+from fynautoserver.controller.tenant_info_crud import create_tenant_info , getTenantInfoByTenancyName, add_tenant, remove_tenant,update_tenant_step
 from fynautoserver.utils.index import create_response
 from fynautoserver.models.index import ResponseModel
-from fynautoserver.schemas.index import AddTenantSchema
+from fynautoserver.schemas.index import AddTenantSchema,StepModel
 from fastapi.encoders import jsonable_encoder
 
 app = FastAPI()
@@ -49,3 +49,16 @@ async def setTenantInfo(payload:TenantInfoModel):
             status_code=500,
         )
         
+@router.put("/updateTenantStep",response_model=ResponseModel)
+async def updateTenantStep(tenantId:str,step:int,steps:StepModel):
+    try:
+        tenant= await update_tenant_step(tenantId, step, steps)
+        return create_response(success=True, result=tenant, status_code=201)
+    except Exception as e:
+        print(f"error during updating tenant step : {e}")
+        return create_response(
+            success=False,
+            error_message="Failed to update tenant step. Please try again.",
+            error_detail=str(e),
+            status_code=500,
+        )
